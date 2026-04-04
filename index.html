@@ -9,7 +9,50 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+/* ===== CONTADOR ===== */
+.contador {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
 
+.tiempo-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 20px 25px;
+  min-width: 120px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 15px #1e3a8a, 0 0 30px #1e40af inset;
+  text-align: center;
+  animation: brilloBox 2s infinite;
+}
+
+.tiempo-box span {
+  display: block;
+  font-size: 60px;
+  font-weight: bold;
+  font-family: 'Great Vibes', cursive;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.tiempo-box p {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #cfd8ff;
+  font-weight: bold;
+}
+
+@keyframes brilloBox {
+  0% { box-shadow: 0 0 10px #1e3a8a; }
+  50% { box-shadow: 0 0 25px #3b82f6; }
+  100% { box-shadow: 0 0 10px #1e3a8a; }
+}
+  
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -98,6 +141,7 @@ margin-top:20px;
 }
 
 </style>
+  
 </head>
 
 <body>
@@ -119,7 +163,7 @@ margin-top:20px;
 
 <div class="section fade">
   <h2>Faltan:</h2>
-  <h1 id="contador"></h1>
+  <div id="contador" class="contador"></div>
 </div>
 
 <div class="section fade">
@@ -179,21 +223,38 @@ setInterval(crearEstrella,300);
 
 // contador
 const fechaEvento = new Date("May 16, 2026 21:00:00").getTime();
+const contenedor = document.getElementById("contador");
 
 setInterval(() => {
   const ahora = new Date().getTime();
   const distancia = fechaEvento - ahora;
 
-const dias = Math.floor(distancia / (1000*60*60*24));
-const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
-const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
-const segundos = Math.floor((distancia % (1000*60)) / 1000);
+  const dias = Math.floor(distancia / (1000*60*60*24));
+  const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
+  const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
+  const segundos = Math.floor((distancia % (1000*60)) / 1000);
 
-document.getElementById("contador").innerHTML =
-  dias + "d : " +
-  horas.toString().padStart(2, '0') + "h : " +
-  minutos.toString().padStart(2, '0') + "m : " +
-  segundos.toString().padStart(2, '0') + "s";
+  contenedor.innerHTML = `
+    <div class="tiempo-box">
+      <span>${dias}</span>
+      <p>DÍAS</p>
+    </div>
+
+    <div class="tiempo-box">
+      <span>${horas.toString().padStart(2, '0')}</span>
+      <p>HORAS</p>
+    </div>
+
+    <div class="tiempo-box">
+      <span>${minutos.toString().padStart(2, '0')}</span>
+      <p>MINUTOS</p>
+    </div>
+
+    <div class="tiempo-box">
+      <span>${segundos.toString().padStart(2, '0')}</span>
+      <p>SEGUNDOS</p>
+    </div>
+  `;
 }, 1000);
 
 // animación scroll
